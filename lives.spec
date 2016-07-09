@@ -1,6 +1,6 @@
 Name:           lives
 Version:        2.6.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -47,7 +47,7 @@ BuildRequires:  bzip2-devel
 BuildRequires:  libappstream-glib
 
 # Packages for re-configuration
-%if 0%{?fedora} > 24
+%if 0%{?fedora} > 23
 BuildRequires:  autoconf, automake, libtool
 %endif
 
@@ -96,7 +96,7 @@ chmod a-x $i
 done
 
 %build
-%if 0%{?fedora} > 24
+%if 0%{?fedora} > 23
 autoreconf -ivf
 %endif
 %configure --disable-silent-rules --enable-shared --enable-static \
@@ -173,6 +173,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Sat Jul 09 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.3-4
+- Fix again conditional macros
+
 * Sat Jul 09 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.3-3
 - Patched for ffmpeg-3.0 on f24 too
 
