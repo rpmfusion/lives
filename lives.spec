@@ -1,12 +1,15 @@
 Name:           lives
 Version:        2.6.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
 Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.bz2
 ## Appdata file downloaded from http://sourceforge.net/p/lives/code/HEAD/tree/trunk/LiVES.appdata.xml
 Source1:        LiVES.appdata.xml
+
+# Fix compatibility with ffmpeg-3.0
+Patch0:         lives-ffmpeg-3-0.patch
 
 BuildRequires:  pkgconfig(jack)
 BuildRequires:  pkgconfig(sdl)
@@ -34,7 +37,7 @@ BuildRequires:  pkgconfig(mjpegtools)
 BuildRequires:  ladspa-devel
 BuildRequires:  GLee-devel
 BuildRequires:  x264-libs
-BuildRequires:  gettext
+BuildRequires:  gettext-devel
 BuildRequires:  doxygen
 BuildRequires:  chrpath, desktop-file-utils
 BuildRequires:  bison
@@ -42,6 +45,11 @@ BuildRequires:  gtk3-devel
 BuildRequires:  ffmpeg-devel
 BuildRequires:  bzip2-devel
 BuildRequires:  libappstream-glib
+
+# Packages for re-configuration
+%if 0%{?fedora} > 24
+BuildRequires:  autoconf, automake, libtool
+%endif
 
 Requires: mplayer
 Requires: mencoder
@@ -73,12 +81,24 @@ It is small in size, yet it has many advanced features.
 %prep
 %setup -q
 
+%if 0%{?fedora} > 24
+%patch0 -p0
+%endif
+
+# Fix to compile with GCC-6.1.1
+%if 0%{?fedora} > 23
+sed -e 's|toonz.cpp||g' -i lives-plugins/weed-plugins/Makefile.am
+%endif
+
 ##Remove spurious executable permissions
 for i in `find . -type f \( -name "*.c" -o -name "*.h" -o -name "*.txt" \)`; do
 chmod a-x $i
 done
 
 %build
+%if 0%{?fedora} > 24
+autoreconf -ivf
+%endif
 %configure --disable-silent-rules --enable-shared --enable-static \
  --enable-largefile --enable-threads --disable-rpath --enable-profiling \
  --enable-doxygen --disable-projectM --disable-libvisual
@@ -153,6 +173,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Fri Jul 08 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.3-2
+- Fix compatibility with ffmpeg-3.0
+
 * Mon May 09 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.3-1
 - Update to 2.6.3
 
