@@ -1,6 +1,6 @@
 Name:           lives
 Version:        2.6.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -173,6 +173,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Sat Jul 30 2016 Julian Sikorski <belegdol@fedoraproject.org> - 2.6.3-5
+- Rebuilt for ffmpeg-3.1.1
+
 * Sat Jul 09 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.3-4
 - Fix again conditional macros
 
