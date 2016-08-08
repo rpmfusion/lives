@@ -34,8 +34,12 @@
   </description>
   <url type="homepage">http://lives-video.com/</url>
   <screenshots>
-    <screenshot type="default">http://lives-video.com/images/livescess.png</screenshot>
-    <screenshot>http://lives-video.com/images/livesmtss.png</screenshot>
+    <screenshot type="default">
+     <image>http://lives-video.com/images/livescess.png</image>
+    </screenshot>
+    <screenshot>
+     <image>http://lives-video.com/images/livesmtss.png</image>
+    </screenshot>
   </screenshots>
-  <updatecontact>salsaman_at_gmail.com</updatecontact>
+  <updatecontact>sagitter_at_fedoraproject.org</updatecontact>
 </component>
