@@ -44,9 +44,7 @@ BuildRequires:  bzip2-devel
 BuildRequires:  libappstream-glib
 
 # Packages for re-configuration
-%if 0%{?fedora} > 23
-BuildRequires:  autoconf, automake, libtool
-%endif
+#BuildRequires:  autoconf, automake, libtool
 
 Requires: mplayer
 Requires: mencoder
@@ -89,9 +87,6 @@ chmod a-x $i
 done
 
 %build
-%if 0%{?fedora} > 23
-autoreconf -ivf
-%endif
 %configure --disable-silent-rules --enable-shared --enable-static \
  --enable-largefile --enable-threads --disable-rpath --enable-profiling \
  --enable-doxygen --disable-projectM --disable-libvisual
