@@ -42,6 +42,7 @@ BuildRequires:  gtk3-devel
 BuildRequires:  ffmpeg-devel
 BuildRequires:  bzip2-devel
 BuildRequires:  libappstream-glib
+BuildRequires:  gcc-c++
 
 # Packages for re-configuration
 #BuildRequires:  autoconf, automake, libtool
@@ -75,11 +76,6 @@ It is small in size, yet it has many advanced features.
 
 %prep
 %setup -q
-
-# Fix to compile with GCC-6.1.1
-%if 0%{?fedora} > 23
-sed -e 's|toonz.cpp||g' -i lives-plugins/weed-plugins/Makefile.am
-%endif
 
 ##Remove spurious executable permissions
 for i in `find . -type f \( -name "*.c" -o -name "*.h" -o -name "*.txt" \)`; do
