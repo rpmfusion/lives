@@ -1,15 +1,12 @@
 Name:           lives
 Version:        2.6.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
 Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.bz2
 ## Appdata file downloaded from http://sourceforge.net/p/lives/code/HEAD/tree/trunk/LiVES.appdata.xml
 Source1:        LiVES.appdata.xml
-
-# Fix compatibility with ffmpeg-3.0
-Patch0:         lives-ffmpeg-3-0.patch
 
 BuildRequires:  pkgconfig(jack)
 BuildRequires:  pkgconfig(sdl)
@@ -80,10 +77,6 @@ It is small in size, yet it has many advanced features.
 
 %prep
 %setup -q
-
-%if 0%{?fedora} > 23
-%patch0 -p0
-%endif
 
 # Fix to compile with GCC-6.1.1
 %if 0%{?fedora} > 23
@@ -173,6 +166,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Mon Aug 08 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.4-2
+- Drop old patch
+
 * Mon Aug 08 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.4-1
 - Update to 2.6.4
 
