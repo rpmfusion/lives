@@ -45,7 +45,7 @@ BuildRequires:  libappstream-glib
 BuildRequires:  gcc-c++
 
 # Packages for re-configuration
-#BuildRequires:  autoconf, automake, libtool
+BuildRequires:  autoconf, automake, libtool
 
 Requires: mplayer
 Requires: mencoder
@@ -83,6 +83,9 @@ chmod a-x $i
 done
 
 %build
+%if 0%{?fedora} > 23
+autoreconf -ivf
+%endif
 %configure --disable-silent-rules --enable-shared --enable-static \
  --enable-largefile --enable-threads --disable-rpath --enable-profiling \
  --enable-doxygen --disable-projectM --disable-libvisual
