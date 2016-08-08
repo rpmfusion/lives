@@ -5,7 +5,7 @@ Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
 Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.bz2
-## Appdata file downloaded from http://sourceforge.net/p/lives/code/HEAD/tree/trunk/LiVES.appdata.xml
+## Appdata file
 Source1:        LiVES.appdata.xml
 
 BuildRequires:  pkgconfig(jack)
@@ -81,6 +81,11 @@ It is small in size, yet it has many advanced features.
 for i in `find . -type f \( -name "*.c" -o -name "*.h" -o -name "*.txt" \)`; do
 chmod a-x $i
 done
+
+# Fix to compile with GCC-6.1.1
+%if 0%{?fedora} > 23
+sed -e 's|toonz.cpp||g' -i lives-plugins/weed-plugins/Makefile.am
+%endif
 
 %build
 %if 0%{?fedora} > 23
