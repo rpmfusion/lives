@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2014 Richard Hughes <richard@hughsie.com> -->
 <component type="desktop">
   <id type="desktop">LiVES.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
@@ -7,7 +6,7 @@
   <name>LiVES</name>
   <project_license>GPL-3.0+ and LGPL-3.0+</project_license>
   <categories>
-   <category>Multimedia</category>
+    <category>Multimedia</category>
   </categories>
   <description>
     <p>
@@ -35,11 +34,14 @@
   <url type="homepage">http://lives-video.com/</url>
   <screenshots>
     <screenshot type="default">
-     <image>http://lives-video.com/images/livescess.png</image>
+      <image>http://lives-video.com/images/livescess.png</image>
     </screenshot>
     <screenshot>
-     <image>http://lives-video.com/images/livesmtss.png</image>
+      <image>http://lives-video.com/images/livesmtss.png</image>
     </screenshot>
   </screenshots>
-  <updatecontact>sagitter_at_fedoraproject.org</updatecontact>
+  <update_contact>sagitter_at_fedoraproject.org</update_contact>
+  <developer_name>Gabriel "Salsaman" Finch</developer_name>
+  <url type="bugtracker">https://sourceforge.net/p/lives/bugs/</url>
+  <url type="donation">http://lives-video.com/index.php?do=donate</url>
 </component>

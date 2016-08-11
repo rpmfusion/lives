@@ -1,6 +1,6 @@
 Name:           lives
 Version:        2.6.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -165,6 +165,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Thu Aug 11 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.4-3
+- Update appdata file
+
 * Mon Aug 08 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.4-2
 - Drop old patch
 
