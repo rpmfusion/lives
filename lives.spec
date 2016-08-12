@@ -1,6 +1,19 @@
+# Filtering of private libraries
+%global privlibs libOSC
+%global privlibs %{privlibs}|libOSC_client
+%global privlibs %{privlibs}|libweed
+%global privlibs %{privlibs}|libweed-utils
+%global privlibs %{privlibs}|libweed-utils_scripting
+%global privlibs %{privlibs}|libweed_slice
+%global privlibs %{privlibs}|libweed_slice_scripting
+
+%global __provides_exclude ^(%{privlibs})\\.so
+%global __requires_exclude ^(%{privlibs})\\.so
+#
+
 Name:           lives
 Version:        2.6.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -123,6 +136,9 @@ rm -rf %{buildroot}%{_datadir}/app-install
 ##Remove rpaths
 chrpath -d %{buildroot}%{_bindir}/lives-exe
 
+# Fix Python2 interpreter
+find %{buildroot} -name 'lives_*' -o -name 'multi_encod*' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python2}|'
+
 ##Set Exec key
 desktop-file-edit \
  --set-key=Exec \
@@ -165,6 +181,10 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Fri Aug 12 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.4-4
+- Fix Python interpreter
+- Filtering of private libraries
+
 * Thu Aug 11 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.4-3
 - Update appdata file
 
