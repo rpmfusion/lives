@@ -12,8 +12,8 @@
 #
 
 Name:           lives
-Version:        2.6.4
-Release:        4%{?dist}
+Version:        2.6.5
+Release:        1%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -181,6 +181,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Sun Aug 14 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.5-1
+- Update to 2.6.5
+
 * Fri Aug 12 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.4-4
 - Fix Python interpreter
 - Filtering of private libraries
