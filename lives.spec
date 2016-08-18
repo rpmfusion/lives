@@ -13,7 +13,7 @@
 
 Name:           lives
 Version:        2.6.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -63,6 +63,7 @@ BuildRequires:  gcc-c++
 BuildRequires:  autoconf, automake, libtool
 
 Requires: mplayer
+Requires: mpv
 Requires: mencoder
 Requires: sox
 Requires: ImageMagick
@@ -83,6 +84,7 @@ Requires: projectM-pulseaudio
 Requires: projectM-jack
 %endif
 Requires: python2
+Requires: hicolor-icon-theme
 
 %description
 LiVES began in 2002 as the Linux Video Editing System.
@@ -138,8 +140,8 @@ rm -rf %{buildroot}%{_includedir}/weed
 rm -rf %{buildroot}%{_docdir}/lives-%{version}
 
 ##Push icon into %{_datadir}/icons/%{name}
-mkdir -p %{buildroot}%{_datadir}/icons/%{name}
-cp -p %{buildroot}%{_datadir}/app-install/icons/%{name}.png %{buildroot}%{_datadir}/icons/%{name}
+mkdir -p %{buildroot}%{_datadir}/hicolor/48x48/apps
+cp -p %{buildroot}%{_datadir}/app-install/icons/%{name}.png %{buildroot}%{_datadir}/hicolor/48x48/apps
 rm -rf %{buildroot}%{_datadir}/app-install
 
 ##Remove rpaths
@@ -159,16 +161,16 @@ desktop-file-edit \
 install -Dp -m 644 %{SOURCE1} %{buildroot}%{_datadir}/appdata/LiVES.appdata.xml
 
 %post
-/bin/touch --no-create %{_datadir}/icons/%{name} &>/dev/null || :
+/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 
 %postun
 if [ $1 -eq 0 ] ; then
-    /bin/touch --no-create %{_datadir}/icons/%{name} &>/dev/null
-    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/%{name} &>/dev/null || :
+    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 fi
 
 %posttrans
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/%{name} &>/dev/null || :
+/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %check
 appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.xml
@@ -186,10 +188,13 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/applications/LiVES.desktop
 %{_datadir}/%{name}/
 %{_datadir}/pixmaps/%{name}.xpm
-%{_datadir}/icons/%{name}/
+%{_datadir}/hicolor/48x48/apps/%{name}.png
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Thu Aug 18 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.6-3
+- Fix icon installation
+
 * Thu Aug 18 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.6-2
 - Add ProjectM support on Fedora >= 24
 
