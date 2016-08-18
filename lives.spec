@@ -141,7 +141,7 @@ rm -rf %{buildroot}%{_docdir}/lives-%{version}
 
 ##Push icon into %{_datadir}/icons/%{name}
 mkdir -p %{buildroot}%{_datadir}/hicolor/48x48/apps
-cp -p %{buildroot}%{_datadir}/app-install/icons/%{name}.png %{buildroot}%{_datadir}/hicolor/48x48/apps
+cp -p %{buildroot}%{_datadir}/app-install/icons/%{name}.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps
 rm -rf %{buildroot}%{_datadir}/app-install
 
 ##Remove rpaths
@@ -188,7 +188,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/applications/LiVES.desktop
 %{_datadir}/%{name}/
 %{_datadir}/pixmaps/%{name}.xpm
-%{_datadir}/hicolor/48x48/apps/%{name}.png
+%{_datadir}/icons/hicolor/48x48/apps/%{name}.png
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
