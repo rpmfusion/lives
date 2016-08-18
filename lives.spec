@@ -13,7 +13,7 @@
 
 Name:           lives
 Version:        2.6.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -29,6 +29,7 @@ BuildRequires:  pkgconfig(libdv)
 BuildRequires:  pkgconfig(libavc1394)
 BuildRequires:  pkgconfig(libraw1394)
 BuildRequires:  pkgconfig(libv4lconvert)
+BuildRequires:  pkgconfig(libfreenect)
 BuildRequires:  pkgconfig(frei0r)
 BuildRequires:  pkgconfig(liboil-0.3)
 BuildRequires:  pkgconfig(theora)
@@ -42,8 +43,9 @@ BuildRequires:  pkgconfig(fftw3)
 #BuildRequires:  pkgconfig(libvisual-0.4)
 BuildRequires:  pkgconfig(libmatroska)
 BuildRequires:  pkgconfig(mjpegtools)
-##libprojectM-2.0.1 not supported
-#BuildRequires:  pkgconfig(libprojectM)
+%if 0%{?fedora} > 23
+BuildRequires:  pkgconfig(libprojectM)
+%endif
 BuildRequires:  ladspa-devel
 BuildRequires:  GLee-devel
 BuildRequires:  x264-libs
@@ -75,9 +77,11 @@ Requires: frei0r-plugins
 Requires: mkvtoolnix
 Requires: vorbis-tools
 Requires: dvgrab
-#Requires: projectM-libvisual
-#Requires: projectM-pulseaudio
-#Requires: projectM-jack
+%if 0%{?fedora} > 23
+Requires: projectM-libvisual
+Requires: projectM-pulseaudio
+Requires: projectM-jack
+%endif
 Requires: python2
 
 %description
@@ -106,7 +110,12 @@ autoreconf -ivf
 %endif
 %configure --disable-silent-rules --enable-shared --enable-static \
  --enable-largefile --enable-threads --disable-rpath --enable-profiling \
- --enable-doxygen --disable-projectM --disable-libvisual
+ --enable-doxygen --disable-libvisual \
+%if 0%{?fedora} > 23
+ --enable-projectM
+%else
+ --disable-projectM
+%endif
  
 %make_build
 
@@ -117,7 +126,7 @@ autoreconf -ivf
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
 find %{buildroot} -name '*.a' -exec rm -f {} ';'
 
-##Private libs
+##We want that these libraries are private
 mv %{buildroot}%{_libdir}/libOSC* %{buildroot}%{_libdir}/%{name}
 mv %{buildroot}%{_libdir}/libweed* %{buildroot}%{_libdir}/%{name}
 #
@@ -181,6 +190,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Thu Aug 18 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.6-2
+- Add ProjectM support on Fedora >= 24
+
 * Wed Aug 17 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.6-1
 - Update to 2.6.6
 
