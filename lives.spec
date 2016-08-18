@@ -140,7 +140,7 @@ rm -rf %{buildroot}%{_includedir}/weed
 rm -rf %{buildroot}%{_docdir}/lives-%{version}
 
 ##Push icon into %{_datadir}/icons/%{name}
-mkdir -p %{buildroot}%{_datadir}/hicolor/48x48/apps
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/48x48/apps
 cp -p %{buildroot}%{_datadir}/app-install/icons/%{name}.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps
 rm -rf %{buildroot}%{_datadir}/app-install
 
