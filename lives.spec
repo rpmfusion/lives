@@ -139,11 +139,6 @@ rm -rf %{buildroot}%{_includedir}/weed
 ##Remove bad documentation files location
 rm -rf %{buildroot}%{_docdir}/lives-%{version}
 
-##Push icon into %{_datadir}/icons/%{name}
-mkdir -p %{buildroot}%{_datadir}/icons/hicolor/48x48/apps
-cp -p %{buildroot}%{_datadir}/app-install/icons/%{name}.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps
-rm -rf %{buildroot}%{_datadir}/app-install
-
 ##Remove rpaths
 chrpath -d %{buildroot}%{_bindir}/lives-exe
 
