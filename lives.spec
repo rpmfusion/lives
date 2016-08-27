@@ -12,7 +12,7 @@
 #
 
 Name:           lives
-Version:        2.6.7
+Version:        2.6.8
 Release:        1%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
@@ -187,6 +187,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Sat Aug 27 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.8-1
+- Update to 2.6.8
+
 * Fri Aug 19 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.6.7-1
 - Update to 2.6.7
 
