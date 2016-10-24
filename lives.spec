@@ -13,7 +13,7 @@
 
 Name:           lives
 Version:        2.8.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -58,6 +58,8 @@ BuildRequires:  ffmpeg-devel
 BuildRequires:  bzip2-devel
 BuildRequires:  libappstream-glib
 BuildRequires:  gcc-c++
+BuildRequires:  perl-generators
+BuildRequires:  python2-devel
 
 # Packages for re-configuration
 BuildRequires:  autoconf, automake, libtool
@@ -187,6 +189,11 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Mon Oct 24 2016 Paul Howarth <paul@city-fan.org> - 2.8.0-2
+- BR: perl-generators for proper dependency generation
+  (https://fedoraproject.org/wiki/Changes/Build_Root_Without_Perl)
+- BR: python2-devel for %%__python2 macro definition
+
 * Sat Sep 03 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.8.0-1
 - Update to 2.8.0
 
