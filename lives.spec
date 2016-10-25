@@ -13,7 +13,7 @@
 
 Name:           lives
 Version:        2.8.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -61,6 +61,7 @@ BuildRequires:  libappstream-glib
 BuildRequires:  gcc-c++
 BuildRequires:  perl-generators
 BuildRequires:  python2-devel
+BuildRequires:  python3-devel
 
 # Packages for re-configuration
 BuildRequires:  autoconf, automake, libtool
@@ -143,8 +144,9 @@ rm -rf %{buildroot}%{_docdir}/lives-%{version}
 ##Remove rpaths
 chrpath -d %{buildroot}%{_bindir}/lives-exe
 
-# Fix Python2 interpreter
-find %{buildroot} -name 'lives_*' -o -name 'multi_encod*' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python2}|'
+# Fix Python interpreter
+find %{buildroot} -name 'lives_*' -o -name 'multi_encoder' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python2}|'
+find %{buildroot} -name 'lives_*' -o -name 'multi_encoder3' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python3}|'
 
 ##Set Exec key
 desktop-file-edit \
@@ -188,6 +190,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Tue Oct 25 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.8.1-2
+- Fix multi_encoder3 python interpreter
+
 * Mon Oct 24 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.8.1-1
 - Update to 2.8.1
 
