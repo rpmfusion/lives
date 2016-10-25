@@ -12,8 +12,8 @@
 #
 
 Name:           lives
-Version:        2.8.0
-Release:        2%{?dist}
+Version:        2.8.1
+Release:        1%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -51,7 +51,8 @@ BuildRequires:  GLee-devel
 BuildRequires:  x264-libs
 BuildRequires:  gettext-devel
 BuildRequires:  doxygen
-BuildRequires:  chrpath, desktop-file-utils
+BuildRequires:  chrpath
+BuildRequires:  desktop-file-utils
 BuildRequires:  bison
 BuildRequires:  gtk3-devel
 BuildRequires:  ffmpeg-devel
@@ -66,7 +67,6 @@ BuildRequires:  autoconf, automake, libtool
 
 Requires: mplayer
 Requires: mpv
-Requires: mencoder
 Requires: sox
 Requires: ImageMagick
 Requires: ogmtools
@@ -85,7 +85,6 @@ Requires: projectM-libvisual
 Requires: projectM-pulseaudio
 Requires: projectM-jack
 %endif
-Requires: python2
 Requires: hicolor-icon-theme
 
 %description
@@ -189,10 +188,15 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Mon Oct 24 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.8.1-1
+- Update to 2.8.1
+
 * Mon Oct 24 2016 Paul Howarth <paul@city-fan.org> - 2.8.0-2
-- BR: perl-generators for proper dependency generation
-  (https://fedoraproject.org/wiki/Changes/Build_Root_Without_Perl)
-- BR: python2-devel for %%__python2 macro definition
+- BR: perl-generators for proper dependency generation (https://fedoraproject.org/wiki/Changes/Build_Root_Without_Perl)
+- BR: python2-devel for %__python2 macro definition 
+
+* Mon Sep 19 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.8.0-2
+- Drop mencoder as Requires package
 
 * Sat Sep 03 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.8.0-1
 - Update to 2.8.0
