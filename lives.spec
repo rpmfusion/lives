@@ -145,10 +145,8 @@ rm -rf %{buildroot}%{_docdir}/lives-%{version}
 chrpath -d %{buildroot}%{_bindir}/lives-exe
 
 # Fix Python interpreter
-find %{buildroot} -name 'lives_*' -o -name 'multi_encoder' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python2}|'
-find %{buildroot} -name 'lives_*' -o -name 'lives_*_encoder' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python2}|'
-find %{buildroot} -name 'lives_*' -o -name 'multi_encoder3' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python3}|'
-find %{buildroot} -name 'lives_*' -o -name 'lives_*_encoder3' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python3}|'
+find %{buildroot} -name 'lives*encoder' -o -name 'multi_encoder' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python2}|'
+find %{buildroot} -name 'lives*encoder3' -o -name 'multi_encoder3' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python3}|'
 
 ##Set Exec key
 desktop-file-edit \
