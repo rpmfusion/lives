@@ -13,7 +13,7 @@
 
 Name:           lives
 Version:        2.8.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -146,7 +146,9 @@ chrpath -d %{buildroot}%{_bindir}/lives-exe
 
 # Fix Python interpreter
 find %{buildroot} -name 'lives_*' -o -name 'multi_encoder' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python2}|'
+find %{buildroot} -name 'lives_*' -o -name 'lives_*_encoder' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python2}|'
 find %{buildroot} -name 'lives_*' -o -name 'multi_encoder3' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python3}|'
+find %{buildroot} -name 'lives_*' -o -name 'lives_*_encoder3' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python3}|'
 
 ##Set Exec key
 desktop-file-edit \
@@ -190,8 +192,11 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Wed Oct 26 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.8.1-3
+- Fix python interpreter of 'lives_*_encoder*' scripts (bz#4304)
+
 * Tue Oct 25 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.8.1-2
-- Fix multi_encoder3 python interpreter
+- Fix python interpreter of 'multiencoder3' script (bz#4304)
 
 * Mon Oct 24 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.8.1-1
 - Update to 2.8.1
