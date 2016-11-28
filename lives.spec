@@ -12,8 +12,8 @@
 #
 
 Name:           lives
-Version:        2.8.1
-Release:        3%{?dist}
+Version:        2.8.2
+Release:        1%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -190,6 +190,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Mon Nov 28 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.8.2-1
+- Update to 2.8.2
+
 * Wed Oct 26 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.8.1-3
 - Fix python interpreter of 'lives_*_encoder*' scripts (bz#4304)
 
