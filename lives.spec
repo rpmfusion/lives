@@ -12,7 +12,7 @@
 #
 
 Name:           lives
-Version:        2.8.2
+Version:        2.8.3
 Release:        1%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
@@ -190,6 +190,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Thu Dec 29 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.8.3-1
+- Update to 2.8.3
+
 * Mon Nov 28 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.8.2-1
 - Update to 2.8.2
 
