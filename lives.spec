@@ -13,7 +13,7 @@
 
 Name:           lives
 Version:        2.8.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -190,6 +190,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Mon Feb 13 2017 Antonio Trande <sagitterATfedoraproject.org> - 2.8.4-2
+- Rebuild for GCC 7
+
 * Sat Jan 14 2017 Antonio Trande <sagitterATfedoraproject.org> - 2.8.4-1
 - Update to 2.8.4
 
