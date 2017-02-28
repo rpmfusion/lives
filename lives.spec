@@ -12,12 +12,17 @@
 #
 
 Name:           lives
-Version:        2.8.4
-Release:        3%{?dist}
+Version:        2.8.5
+Release:        0.1.svn2608%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
-Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.bz2
+#Source0:        http://lives-video.com/releases/LiVES-%%{version}.tar.bz2
+
+# svn checkout https://svn.code.sf.net/p/lives/code/trunk lives-code
+# rm -rf lives-code/.svn
+# tar -cvzf lives-svn2608.tar.gz lives-code
+Source0:        lives-svn2608.tar.gz
 ## Appdata file
 Source1:        LiVES.appdata.xml
 
@@ -96,7 +101,7 @@ designed to be simple to use, yet powerful.
 It is small in size, yet it has many advanced features.
 
 %prep
-%setup -q
+%setup -q -n lives-code
 
 ##Remove spurious executable permissions
 for i in `find . -type f \( -name "*.c" -o -name "*.h" -o -name "*.txt" \)`; do
@@ -140,7 +145,7 @@ rm -rf %{buildroot}%{_libdir}/pkgconfig
 rm -rf %{buildroot}%{_includedir}/weed
 
 ##Remove bad documentation files location
-rm -rf %{buildroot}%{_docdir}/lives-%{version}
+rm -rf %{buildroot}%{_docdir}/lives-%{version}-svn
 
 # Fix Python interpreter
 find %{buildroot} -name 'lives*encoder' -o -name 'multi_encoder' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python2}|'
@@ -200,8 +205,11 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Tue Feb 28 2017 Antonio Trande <sagitterATfedoraproject.org> - 2.8.5-0.1.svn2608
+- Update to svn2608 (rpmfusion bug #4467)
+
 * Mon Feb 27 2017 Antonio Trande <sagitterATfedoraproject.org> - 2.8.4-3
-- Set lives shell script
+- Set lives shell script (rpmfusion bug #4466)
 
 * Mon Feb 13 2017 Antonio Trande <sagitterATfedoraproject.org> - 2.8.4-2
 - Rebuild for GCC 7
