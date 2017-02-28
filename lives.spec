@@ -13,7 +13,7 @@
 
 Name:           lives
 Version:        2.8.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -112,6 +112,7 @@ sed -e 's|toonz.cpp||g' -i lives-plugins/weed-plugins/Makefile.am
 %if 0%{?fedora} > 23
 autoreconf -ivf
 %endif
+
 %configure --disable-silent-rules --enable-shared --enable-static \
  --enable-largefile --enable-threads --disable-rpath --enable-profiling \
  --enable-doxygen --disable-libvisual \
@@ -120,7 +121,7 @@ autoreconf -ivf
 %else
  --disable-projectM
 %endif
- 
+
 %make_build
 
 %install
@@ -141,18 +142,27 @@ rm -rf %{buildroot}%{_includedir}/weed
 ##Remove bad documentation files location
 rm -rf %{buildroot}%{_docdir}/lives-%{version}
 
-##Remove rpaths
-chrpath -d %{buildroot}%{_bindir}/lives-exe
-
 # Fix Python interpreter
 find %{buildroot} -name 'lives*encoder' -o -name 'multi_encoder' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python2}|'
 find %{buildroot} -name 'lives*encoder3' -o -name 'multi_encoder3' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python3}|'
 
+rm -f %{buildroot}%{_bindir}/%{name}
+cat > %{buildroot}%{_bindir}/%{name} <<EOF
+#!/bin/sh
+echo "Setting private libraries path"
+export LD_LIBRARY_PATH=%{_libdir}/%{name}
+echo "Setting frei0r library path"
+export FREI0R_PATH=%{_libdir}/frei0r-1
+echo "Settin ladspa library path"
+export LADSPA_PATH=%{_libdir}/ladspa
+echo "Running LiVES"
+%{_bindir}/%{name}-exe "\$@"
+EOF
+chmod a+x %{buildroot}%{_bindir}/%{name}
+
 ##Set Exec key
 desktop-file-edit \
- --set-key=Exec \
- --set-value="env LD_LIBRARY_PATH=%{_libdir}/%{name} \
- FREI0R_PATH=%{_libdir}/frei0r-1 LADSPA_PATH=%{_libdir}/ladspa lives-exe" \
+ --set-key=Exec --set-value=lives \
 %{buildroot}%{_datadir}/applications/LiVES.desktop
 
 # Register as an application to be visible in the software center
@@ -190,6 +200,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Mon Feb 27 2017 Antonio Trande <sagitterATfedoraproject.org> - 2.8.4-3
+- Set lives shell script
+
 * Mon Feb 13 2017 Antonio Trande <sagitterATfedoraproject.org> - 2.8.4-2
 - Rebuild for GCC 7
 
