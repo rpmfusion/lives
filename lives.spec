@@ -13,16 +13,11 @@
 
 Name:           lives
 Version:        2.8.5
-Release:        0.3.svn2608%{?dist}
+Release:        1%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
-#Source0:        http://lives-video.com/releases/LiVES-%%{version}.tar.bz2
-
-# svn checkout https://svn.code.sf.net/p/lives/code/trunk lives-code
-# rm -rf lives-code/.svn
-# tar -cvzf lives-svn2608.tar.gz lives-code
-Source0:        lives-svn2608.tar.gz
+Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.gz
 ## Appdata file
 Source1:        LiVES.appdata.xml
 
@@ -48,11 +43,10 @@ BuildRequires:  pkgconfig(fftw3)
 #BuildRequires:  pkgconfig(libvisual-0.4)
 BuildRequires:  pkgconfig(libmatroska)
 BuildRequires:  pkgconfig(mjpegtools)
-%if 0%{?fedora} > 23
-BuildRequires:  pkgconfig(libprojectM)
-%endif
 BuildRequires:  ladspa-devel
-BuildRequires:  GLee-devel
+
+#Retired on fedora
+#BuildRequires:  GLee-devel
 BuildRequires:  x264-libs
 BuildRequires:  gettext-devel
 BuildRequires:  doxygen
@@ -101,31 +95,17 @@ designed to be simple to use, yet powerful.
 It is small in size, yet it has many advanced features.
 
 %prep
-%setup -q -n lives-code
+%setup -q -n lives-%{version}
 
 ##Remove spurious executable permissions
 for i in `find . -type f \( -name "*.c" -o -name "*.h" -o -name "*.txt" \)`; do
 chmod a-x $i
 done
 
-# Fix to compile with GCC-6.1.1
-%if 0%{?fedora} > 23
-sed -e 's|toonz.cpp||g' -i lives-plugins/weed-plugins/Makefile.am
-%endif
-
 %build
-%if 0%{?fedora} > 23
-autoreconf -ivf
-%endif
-
 %configure --disable-silent-rules --enable-shared --enable-static \
  --enable-largefile --enable-threads --disable-rpath --enable-profiling \
- --enable-doxygen --disable-libvisual \
-%if 0%{?fedora} > 23
- --enable-projectM
-%else
- --disable-projectM
-%endif
+ --enable-doxygen --disable-libvisual --disable-projectM
 
 %make_build
 
@@ -145,7 +125,10 @@ rm -rf %{buildroot}%{_libdir}/pkgconfig
 rm -rf %{buildroot}%{_includedir}/weed
 
 ##Remove bad documentation files location
-rm -rf %{buildroot}%{_docdir}/lives-%{version}-svn
+rm -rf %{buildroot}%{_docdir}/%{name}-%{version}
+
+##Remove rpath
+chrpath -d %{buildroot}%{_bindir}/%{name}-exe
 
 # Fix Python interpreter
 find %{buildroot} -name 'lives*encoder' -o -name 'multi_encoder' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python2}|'
@@ -205,6 +188,10 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Sat Apr 29 2017 Antonio Trande <sagitterATfedoraproject.org> - 2.8.5-1
+- Update to the release 2.8.5
+- GLee support dropped (retired on Fedora)
+
 * Sat Apr 29 2017 Leigh Scott <leigh123linux@googlemail.com> - 2.8.5-0.3.svn2608
 - Rebuild for ffmpeg update
 
