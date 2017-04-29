@@ -13,7 +13,7 @@
 
 Name:           lives
 Version:        2.8.5
-Release:        0.2.svn2608%{?dist}
+Release:        0.3.svn2608%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -205,6 +205,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Sat Apr 29 2017 Leigh Scott <leigh123linux@googlemail.com> - 2.8.5-0.3.svn2608
+- Rebuild for ffmpeg update
+
 * Sun Mar 19 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 2.8.5-0.2.svn2608
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
