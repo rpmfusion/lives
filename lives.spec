@@ -13,13 +13,16 @@
 
 Name:           lives
 Version:        2.8.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
 Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.gz
 ## Appdata file
 Source1:        LiVES.appdata.xml
+
+## Remove GLee
+Patch0:         %{name}-2620.patch
 
 BuildRequires:  pkgconfig(jack)
 BuildRequires:  pkgconfig(sdl)
@@ -44,9 +47,6 @@ BuildRequires:  pkgconfig(fftw3)
 BuildRequires:  pkgconfig(libmatroska)
 BuildRequires:  pkgconfig(mjpegtools)
 BuildRequires:  ladspa-devel
-
-#Retired on fedora
-#BuildRequires:  GLee-devel
 BuildRequires:  x264-libs
 BuildRequires:  gettext-devel
 BuildRequires:  doxygen
@@ -96,6 +96,8 @@ It is small in size, yet it has many advanced features.
 
 %prep
 %setup -q -n lives-%{version}
+
+%patch0 -p0
 
 ##Remove spurious executable permissions
 for i in `find . -type f \( -name "*.c" -o -name "*.h" -o -name "*.txt" \)`; do
@@ -188,6 +190,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Sun Apr 30 2017 Antonio Trande <sagitterATfedoraproject.org> - 2.8.5-2
+- Add patch for removing GLee dependency
+
 * Sat Apr 29 2017 Antonio Trande <sagitterATfedoraproject.org> - 2.8.5-1
 - Update to the release 2.8.5
 - GLee support dropped (retired on Fedora)
