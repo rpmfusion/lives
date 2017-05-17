@@ -13,7 +13,7 @@
 
 Name:           lives
 Version:        2.8.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -190,6 +190,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Wed May 17 2017 Leigh Scott <leigh123linux@googlemail.com> - 2.8.5-3
+- Rebuild for ffmpeg update
+
 * Sun Apr 30 2017 Antonio Trande <sagitterATfedoraproject.org> - 2.8.5-2
 - Add patch for removing GLee dependency
 
