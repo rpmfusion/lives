@@ -12,17 +12,14 @@
 #
 
 Name:           lives
-Version:        2.8.5
-Release:        3%{?dist}
+Version:        2.8.6
+Release:        1%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
-Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.gz
+Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.bz2
 ## Appdata file
 Source1:        LiVES.appdata.xml
-
-## Remove GLee
-Patch0:         %{name}-2620.patch
 
 BuildRequires:  pkgconfig(jack)
 BuildRequires:  pkgconfig(sdl)
@@ -80,11 +77,9 @@ Requires: frei0r-plugins
 Requires: mkvtoolnix
 Requires: vorbis-tools
 Requires: dvgrab
-%if 0%{?fedora} > 23
 Requires: projectM-libvisual
 Requires: projectM-pulseaudio
 Requires: projectM-jack
-%endif
 Requires: hicolor-icon-theme
 
 %description
@@ -96,8 +91,6 @@ It is small in size, yet it has many advanced features.
 
 %prep
 %setup -q -n lives-%{version}
-
-%patch0 -p0
 
 ##Remove spurious executable permissions
 for i in `find . -type f \( -name "*.c" -o -name "*.h" -o -name "*.txt" \)`; do
@@ -190,6 +183,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Wed May 24 2017 Antonio Trande <sagitterATfedoraproject.org> - 2.8.6-1
+- Update to 2.8.6
+
 * Wed May 17 2017 Leigh Scott <leigh123linux@googlemail.com> - 2.8.5-3
 - Rebuild for ffmpeg update
 
