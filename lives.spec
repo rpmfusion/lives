@@ -13,7 +13,7 @@
 
 Name:           lives
 Version:        2.8.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -68,7 +68,7 @@ Requires: sox
 Requires: ImageMagick
 Requires: ogmtools
 Requires: oggvideotools
-Requires: perl
+Requires: perl-interpreter
 Requires: theora-tools
 Requires: youtube-dl
 Requires: dvgrab
@@ -183,6 +183,11 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Fri Jul 14 2017 Paul Howarth <paul@city-fan.org> - 2.8.7-2
+- Perl 5.26 rebuild
+- Require perl-interpreter rather than perl
+  (https://fedoraproject.org/wiki/Changes/perl_Package_to_Install_Core_Modules)
+
 * Fri Jun 30 2017 Antonio Trande <sagitterATfedoraproject.org> - 2.8.7-1
 - Update to 2.8.7
 
@@ -234,7 +239,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 
 * Mon Oct 24 2016 Paul Howarth <paul@city-fan.org> - 2.8.0-2
 - BR: perl-generators for proper dependency generation (https://fedoraproject.org/wiki/Changes/Build_Root_Without_Perl)
-- BR: python2-devel for %__python2 macro definition 
+- BR: python2-devel for %__python2 macro definition
 
 * Mon Sep 19 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.8.0-2
 - Drop mencoder as Requires package
