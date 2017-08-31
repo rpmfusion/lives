@@ -13,7 +13,7 @@
 
 Name:           lives
 Version:        2.8.7
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -183,6 +183,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Thu Aug 31 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 2.8.7-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Fri Jul 14 2017 Paul Howarth <paul@city-fan.org> - 2.8.7-2
 - Perl 5.26 rebuild
 - Require perl-interpreter rather than perl
