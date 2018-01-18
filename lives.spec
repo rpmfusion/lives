@@ -13,7 +13,7 @@
 
 Name:           lives
 Version:        2.8.7
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -183,6 +183,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Thu Jan 18 2018 Leigh Scott <leigh123linux@googlemail.com> - 2.8.7-5
+- Rebuilt for ffmpeg-3.5 git
+
 * Tue Oct 17 2017 Leigh Scott <leigh123linux@googlemail.com> - 2.8.7-4
 - Rebuild for ffmpeg update
 
