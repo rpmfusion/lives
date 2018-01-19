@@ -13,13 +13,14 @@
 
 Name:           lives
 Version:        2.8.7
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
 Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.bz2
 ## Appdata file
 Source1:        LiVES.appdata.xml
+Patch0:         ffmpeg35_buildfix.patch
 
 BuildRequires:  pkgconfig(jack)
 BuildRequires:  pkgconfig(sdl)
@@ -92,6 +93,7 @@ It is small in size, yet it has many advanced features.
 
 %prep
 %setup -q -n lives-%{version}
+%patch0 -p1
 
 ##Remove spurious executable permissions
 for i in `find . -type f \( -name "*.c" -o -name "*.h" -o -name "*.txt" \)`; do
@@ -184,6 +186,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Fri Jan 19 2018 Leigh Scott <leigh123linux@googlemail.com> - 2.8.7-7
+- Add build fix for ffmpeg-3.5 git
+
 * Thu Jan 18 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.8.7-6
 - Add tirpc BR package
 
