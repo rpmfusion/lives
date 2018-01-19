@@ -103,7 +103,7 @@ done
  --enable-largefile --enable-threads --disable-rpath --enable-profiling \
  --enable-doxygen --disable-libvisual --disable-projectM
 
-%make_build CPPFLAGS=-I%{_includedir}/tirpc LIBS=-ltirpc
+%make_build CPPFLAGS=-I%{_includedir}/tirpc LIBS="-ltirpc -ldl"
 
 %install
 %make_install
