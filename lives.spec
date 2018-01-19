@@ -13,7 +13,7 @@
 
 Name:           lives
 Version:        2.8.7
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -32,6 +32,7 @@ BuildRequires:  pkgconfig(libv4lconvert)
 BuildRequires:  pkgconfig(libfreenect)
 BuildRequires:  pkgconfig(frei0r)
 BuildRequires:  pkgconfig(liboil-0.3)
+BuildRequires:  pkgconfig(libtirpc)
 BuildRequires:  pkgconfig(theora)
 BuildRequires:  pkgconfig(vorbis)
 BuildRequires:  pkgconfig(schroedinger-1.0)
@@ -102,7 +103,7 @@ done
  --enable-largefile --enable-threads --disable-rpath --enable-profiling \
  --enable-doxygen --disable-libvisual --disable-projectM
 
-%make_build
+%make_build CPPFLAGS=-I%{_includedir}/tirpc LIBS=-ltirpc
 
 %install
 %make_install
@@ -183,6 +184,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Thu Jan 18 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.8.7-6
+- Add tirpc BR package
+
 * Thu Jan 18 2018 Leigh Scott <leigh123linux@googlemail.com> - 2.8.7-5
 - Rebuilt for ffmpeg-3.5 git
 
