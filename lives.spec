@@ -13,14 +13,14 @@
 
 Name:           lives
 Version:        2.8.7
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
 Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.bz2
 ## Appdata file
 Source1:        LiVES.appdata.xml
-Patch0:         ffmpeg35_buildfix.patch
+Patch0:         %{name}-ffmpeg35_buildfix.patch
 
 BuildRequires:  pkgconfig(jack)
 BuildRequires:  pkgconfig(sdl)
@@ -45,6 +45,7 @@ BuildRequires:  pkgconfig(fftw3)
 #BuildRequires:  pkgconfig(libvisual-0.4)
 BuildRequires:  pkgconfig(libmatroska)
 BuildRequires:  pkgconfig(mjpegtools)
+BuildRequires:  pkgconfig(libprojectM)
 BuildRequires:  ladspa-devel
 BuildRequires:  x264-libs
 BuildRequires:  gettext-devel
@@ -60,7 +61,6 @@ BuildRequires:  gcc-c++
 BuildRequires:  perl-generators
 BuildRequires:  python2-devel
 BuildRequires:  python3-devel
-BuildRequires:  libprojectM-devel
 
 # Packages for re-configuration
 BuildRequires:  autoconf, automake, libtool
@@ -94,7 +94,9 @@ It is small in size, yet it has many advanced features.
 
 %prep
 %setup -q -n lives-%{version}
+%if 0%{?fedora} > 27
 %patch0 -p1
+%endif
 
 ##Remove spurious executable permissions
 for i in `find . -type f \( -name "*.c" -o -name "*.h" -o -name "*.txt" \)`; do
@@ -104,7 +106,7 @@ done
 %build
 %configure --disable-silent-rules --enable-shared --enable-static \
  --enable-largefile --enable-threads --disable-rpath --enable-profiling \
- --enable-doxygen
+ --enable-doxygen --disable-libvisual --enable-projectM
 
 %make_build CPPFLAGS=-I%{_includedir}/tirpc LIBS="-ltirpc -ldl"
 
@@ -187,6 +189,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Sat Jan 20 2018 Antonio Trande <sagitter@fedoraproject.org> - 2.8.7.9
+- Rename patch for ffmpeg-3.5 and applied on fedora 28+
+
 * Sat Jan 20 2018 Meu Nome <eu@exemplo.com> - 2.8.7-8
 - Enable libprojectM
 
