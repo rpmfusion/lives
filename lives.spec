@@ -13,7 +13,7 @@
 
 Name:           lives
 Version:        2.8.7
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -60,6 +60,7 @@ BuildRequires:  gcc-c++
 BuildRequires:  perl-generators
 BuildRequires:  python2-devel
 BuildRequires:  python3-devel
+BuildRequires:  libprojectM-devel
 
 # Packages for re-configuration
 BuildRequires:  autoconf, automake, libtool
@@ -103,7 +104,7 @@ done
 %build
 %configure --disable-silent-rules --enable-shared --enable-static \
  --enable-largefile --enable-threads --disable-rpath --enable-profiling \
- --enable-doxygen --disable-libvisual --disable-projectM
+ --enable-doxygen
 
 %make_build CPPFLAGS=-I%{_includedir}/tirpc LIBS="-ltirpc -ldl"
 
@@ -186,6 +187,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/appdata/LiVES.appdata.xml
 
 %changelog
+* Sat Jan 20 2018 Meu Nome <eu@exemplo.com> - 2.8.7-8
+- Enable libprojectM
+
 * Fri Jan 19 2018 Leigh Scott <leigh123linux@googlemail.com> - 2.8.7-7
 - Add build fix for ffmpeg-3.5 git
 
