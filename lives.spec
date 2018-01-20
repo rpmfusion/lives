@@ -192,7 +192,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 * Sat Jan 20 2018 Antonio Trande <sagitter@fedoraproject.org> - 2.8.7.9
 - Rename patch for ffmpeg-3.5 and applied on fedora 28+
 
-* Sat Jan 20 2018 Meu Nome <eu@exemplo.com> - 2.8.7-8
+* Sat Jan 20 2018 Sérgio Basto <sergio@serjux.com> - 2.8.7-8
 - Enable libprojectM
 
 * Fri Jan 19 2018 Leigh Scott <leigh123linux@googlemail.com> - 2.8.7-7
