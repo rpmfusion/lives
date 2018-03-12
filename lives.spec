@@ -12,15 +12,14 @@
 #
 
 Name:           lives
-Version:        2.8.7
-Release:        11%{?dist}
+Version:        2.8.8
+Release:        1%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
 Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.bz2
 ## Appdata file
 Source1:        LiVES.appdata.xml
-Patch0:         %{name}-ffmpeg35_buildfix.patch
 
 BuildRequires:  pkgconfig(jack)
 BuildRequires:  pkgconfig(sdl)
@@ -94,9 +93,6 @@ It is small in size, yet it has many advanced features.
 
 %prep
 %setup -q -n lives-%{version}
-%if 0%{?fedora} > 27
-%patch0 -p1
-%endif
 
 ##Remove spurious executable permissions
 for i in `find . -type f \( -name "*.c" -o -name "*.h" -o -name "*.txt" \)`; do
@@ -155,22 +151,10 @@ desktop-file-edit \
 %{buildroot}%{_datadir}/applications/LiVES.desktop
 
 # Register as an application to be visible in the software center
-install -Dp -m 644 %{SOURCE1} %{buildroot}%{_datadir}/appdata/LiVES.appdata.xml
-
-%post
-/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-
-%postun
-if [ $1 -eq 0 ] ; then
-    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-
-%posttrans
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+install -Dp -m 644 %{SOURCE1} %{buildroot}%{_datadir}/metainfo/LiVES.appdata.xml
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata.xml
 
 %files -f %{name}.lang
 %doc README AUTHORS BUGS ChangeLog FEATURES
@@ -186,9 +170,15 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.
 %{_datadir}/%{name}/
 %{_datadir}/pixmaps/%{name}.xpm
 %{_datadir}/icons/hicolor/48x48/apps/%{name}.png
-%{_datadir}/appdata/LiVES.appdata.xml
+%{_datadir}/metainfo/LiVES.appdata.xml
 
 %changelog
+* Sun Mar 11 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.8.8-1
+- Update to 2.8.8
+- Remove obsolete scriptlets
+- Remove obsolete ffmpeg patch
+- Use metainfo directory for appdata files
+
 * Thu Mar 08 2018 RPM Fusion Release Engineering <leigh123linux@googlemail.com> - 2.8.7-11
 - Rebuilt for new ffmpeg snapshot
 
