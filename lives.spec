@@ -6,6 +6,7 @@
 %global privlibs %{privlibs}|libweed-utils_scripting
 %global privlibs %{privlibs}|libweed_slice
 %global privlibs %{privlibs}|libweed_slice_scripting
+%global privlibs %{privlibs}|libav_stream
 
 %global __provides_exclude ^(%{privlibs})\\.so
 %global __requires_exclude ^(%{privlibs})\\.so
@@ -13,7 +14,7 @@
 
 Name:           lives
 Version:        2.8.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -173,6 +174,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata
 %{_datadir}/metainfo/LiVES.appdata.xml
 
 %changelog
+* Thu Mar 15 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.8.9-2
+- Filtering of libav_stream.so
+
 * Thu Mar 15 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.8.9-1
 - Update to 2.8.9
 
