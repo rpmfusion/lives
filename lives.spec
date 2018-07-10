@@ -14,7 +14,7 @@
 
 Name:           lives
 Version:        2.8.9
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -174,6 +174,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata
 %{_datadir}/metainfo/LiVES.appdata.xml
 
 %changelog
+* Tue Jul 10 2018 Miro Hrončok <mhroncok@redhat.com> - 2.8.9-3
+- Rebuilt for Python 3.7
+
 * Thu Mar 15 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.8.9-2
 - Filtering of libav_stream.so
 
