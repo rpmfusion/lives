@@ -14,7 +14,7 @@
 
 Name:           lives
 Version:        2.8.9
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -174,6 +174,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata
 %{_datadir}/metainfo/LiVES.appdata.xml
 
 %changelog
+* Thu Jul 26 2018 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 2.8.9-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
 * Tue Jul 10 2018 Miro Hrončok <mhroncok@redhat.com> - 2.8.9-3
 - Rebuilt for Python 3.7
 
