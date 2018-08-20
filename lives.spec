@@ -14,7 +14,7 @@
 
 Name:           lives
 Version:        2.8.9
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -57,7 +57,7 @@ BuildRequires:  gtk3-devel
 BuildRequires:  ffmpeg-devel
 BuildRequires:  bzip2-devel
 BuildRequires:  libappstream-glib
-BuildRequires:  gcc-c++
+BuildRequires:  gcc-c++, pkgconf-pkg-config
 BuildRequires:  perl-generators
 BuildRequires:  python2-devel
 BuildRequires:  python3-devel
@@ -65,24 +65,24 @@ BuildRequires:  python3-devel
 # Packages for re-configuration
 BuildRequires:  autoconf, automake, libtool
 
-Requires: mplayer
-Requires: mpv
-Requires: sox
-Requires: ImageMagick
-Requires: ogmtools
-Requires: oggvideotools
-Requires: perl-interpreter
-Requires: theora-tools
-Requires: youtube-dl
-Requires: dvgrab
-Requires: icedax
-Requires: frei0r-plugins
-Requires: mkvtoolnix
-Requires: vorbis-tools
-Requires: dvgrab
-Requires: projectM-libvisual
-Requires: projectM-pulseaudio
-Requires: projectM-jack
+Requires: mplayer%{?_isa}
+Requires: mpv%{?_isa}
+Requires: sox%{?_isa}
+Requires: ImageMagick%{?_isa}
+Requires: ogmtools%{?_isa}
+Requires: oggvideotools%{?_isa}
+Requires: perl-interpreter%{?_isa}
+Requires: theora-tools%{?_isa}
+Requires: youtube-dl%{?_isa}
+Requires: dvgrab%{?_isa}
+Requires: icedax%{?_isa}
+Requires: frei0r-plugins%{?_isa}
+Requires: mkvtoolnix%{?_isa}
+Requires: vorbis-tools%{?_isa}
+Requires: dvgrab%{?_isa}
+Requires: projectM-libvisual%{?_isa}
+Requires: projectM-pulseaudio%{?_isa}
+Requires: projectM-jack%{?_isa}
 Requires: hicolor-icon-theme
 
 %description
@@ -93,7 +93,7 @@ designed to be simple to use, yet powerful.
 It is small in size, yet it has many advanced features.
 
 %prep
-%setup -q -n lives-%{version}
+%autosetup -n lives-%{version}
 
 ##Remove spurious executable permissions
 for i in `find . -type f \( -name "*.c" -o -name "*.h" -o -name "*.txt" \)`; do
@@ -152,10 +152,10 @@ desktop-file-edit \
 %{buildroot}%{_datadir}/applications/LiVES.desktop
 
 # Register as an application to be visible in the software center
-install -Dp -m 644 %{SOURCE1} %{buildroot}%{_datadir}/metainfo/LiVES.appdata.xml
+install -Dp -m 644 %{SOURCE1} %{buildroot}%{_metainfodir}/LiVES.appdata.xml
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 
 %files -f %{name}.lang
 %doc README AUTHORS BUGS ChangeLog FEATURES
@@ -171,9 +171,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata
 %{_datadir}/%{name}/
 %{_datadir}/pixmaps/%{name}.xpm
 %{_datadir}/icons/hicolor/48x48/apps/%{name}.png
-%{_datadir}/metainfo/LiVES.appdata.xml
+%{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Mon Aug 20 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.8.9-5
+- Some minor changes
+
 * Thu Jul 26 2018 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 2.8.9-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
