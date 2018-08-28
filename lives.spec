@@ -13,12 +13,12 @@
 #
 
 Name:           lives
-Version:        2.8.9
-Release:        5%{?dist}
+Version:        2.10.0
+Release:        0.1%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
-Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.bz2
+Source0:        http://lives-video.com/releases/pre/lives-%{version}-pre1.tar.bz2
 ## Appdata file
 Source1:        LiVES.appdata.xml
 
@@ -73,7 +73,7 @@ Requires: ogmtools%{?_isa}
 Requires: oggvideotools%{?_isa}
 Requires: perl-interpreter%{?_isa}
 Requires: theora-tools%{?_isa}
-Requires: youtube-dl%{?_isa}
+Requires: youtube-dl
 Requires: dvgrab%{?_isa}
 Requires: icedax%{?_isa}
 Requires: frei0r-plugins%{?_isa}
@@ -139,7 +139,7 @@ echo "Setting private libraries path"
 export LD_LIBRARY_PATH=%{_libdir}/%{name}
 echo "Setting frei0r library path"
 export FREI0R_PATH=%{_libdir}/frei0r-1
-echo "Settin ladspa library path"
+echo "Setting ladspa library path"
 export LADSPA_PATH=%{_libdir}/ladspa
 echo "Running LiVES"
 %{_bindir}/%{name}-exe "\$@"
@@ -174,6 +174,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Tue Aug 28 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.10.0-0.1
+- lives 2.10.0 pre-release
+
 * Mon Aug 20 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.8.9-5
 - Some minor changes
 
