@@ -14,11 +14,11 @@
 
 Name:           lives
 Version:        2.10.0
-Release:        0.1%{?dist}
+Release:        1%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
-Source0:        http://lives-video.com/releases/pre/lives-%{version}-pre1.tar.bz2
+Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.bz2
 ## Appdata file
 Source1:        LiVES.appdata.xml
 
@@ -59,7 +59,6 @@ BuildRequires:  bzip2-devel
 BuildRequires:  libappstream-glib
 BuildRequires:  gcc-c++, pkgconf-pkg-config
 BuildRequires:  perl-generators
-BuildRequires:  python2-devel
 BuildRequires:  python3-devel
 
 # Packages for re-configuration
@@ -95,7 +94,7 @@ It is small in size, yet it has many advanced features.
 %prep
 %autosetup -n lives-%{version}
 
-##Remove spurious executable permissions
+# Remove spurious executable permissions
 for i in `find . -type f \( -name "*.c" -o -name "*.h" -o -name "*.txt" \)`; do
 chmod a-x $i
 done
@@ -114,23 +113,25 @@ done
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
 find %{buildroot} -name '*.a' -exec rm -f {} ';'
 
-##We want that these libraries are private
+# We want that these libraries are private
 mv %{buildroot}%{_libdir}/libOSC* %{buildroot}%{_libdir}/%{name}
 mv %{buildroot}%{_libdir}/libweed* %{buildroot}%{_libdir}/%{name}
-#
-##Weed's devel files removed
+
+# Weed's devel files removed
 rm -rf %{buildroot}%{_libdir}/pkgconfig
 rm -rf %{buildroot}%{_includedir}/weed
 
-##Remove bad documentation files location
+# Remove bad documentation files location
 rm -rf %{buildroot}%{_docdir}/%{name}-%{version}
 
-##Remove rpath
+# Remove rpath
 chrpath -d %{buildroot}%{_bindir}/%{name}-exe
 
+# Remove Python2 scripts
+find %{buildroot} -name '*encoder' -exec rm -f {} ';'
+
 # Fix Python interpreter
-find %{buildroot} -name 'lives*encoder' -o -name 'multi_encoder' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python2}|'
-find %{buildroot} -name 'lives*encoder3' -o -name 'multi_encoder3' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python3}|'
+find %{buildroot} -name '*encoder3' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python3}|'
 
 rm -f %{buildroot}%{_bindir}/%{name}
 cat > %{buildroot}%{_bindir}/%{name} <<EOF
@@ -174,6 +175,10 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Tue Sep 04 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.10.0-1
+- Release 2.10.0
+- Drop Python2 scripts
+
 * Tue Aug 28 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.10.0-0.1
 - lives 2.10.0 pre-release
 
