@@ -13,7 +13,7 @@
 #
 
 Name:           lives
-Version:        2.10.0
+Version:        2.10.1
 Release:        1%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
@@ -95,9 +95,9 @@ It is small in size, yet it has many advanced features.
 %autosetup -n lives-%{version}
 
 # Remove spurious executable permissions
-for i in `find . -type f \( -name "*.c" -o -name "*.h" -o -name "*.txt" \)`; do
-chmod a-x $i
-done
+find . -type f -name "*.h" -exec chmod 0644 '{}' \;
+find . -type f -name "*.txt" -exec chmod 0644 '{}' \;
+find . -type f -name "*.c" -exec chmod 0644 '{}' \;
 
 %build
 %configure --disable-silent-rules --enable-shared --enable-static \
@@ -110,12 +110,13 @@ done
 %make_install
 %find_lang %{name}
 
+# Remove libtools archives and static libraries
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
 find %{buildroot} -name '*.a' -exec rm -f {} ';'
 
 # We want that these libraries are private
-mv %{buildroot}%{_libdir}/libOSC* %{buildroot}%{_libdir}/%{name}
-mv %{buildroot}%{_libdir}/libweed* %{buildroot}%{_libdir}/%{name}
+mv %{buildroot}%{_libdir}/libOSC* %{buildroot}%{_libdir}/%{name}/
+mv %{buildroot}%{_libdir}/libweed* %{buildroot}%{_libdir}/%{name}/
 
 # Weed's devel files removed
 rm -rf %{buildroot}%{_libdir}/pkgconfig
@@ -175,6 +176,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Sun Dec 23 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.10.1-1
+- Release 2.10.1
+
 * Tue Sep 04 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.10.0-1
 - Release 2.10.0
 - Drop Python2 scripts
