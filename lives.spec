@@ -14,13 +14,15 @@
 
 Name:           lives
 Version:        2.10.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
 Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.bz2
 ## Appdata file
 Source1:        LiVES.appdata.xml
+
+Patch0:         %{name}-fix-py3_mencoder.patch
 
 BuildRequires:  pkgconfig(jack)
 BuildRequires:  pkgconfig(sdl)
@@ -92,7 +94,7 @@ designed to be simple to use, yet powerful.
 It is small in size, yet it has many advanced features.
 
 %prep
-%autosetup -n lives-%{version}
+%autosetup -p1 -n lives-%{version}
 
 # Remove spurious executable permissions
 find . -type f -name "*.h" -exec chmod 0644 '{}' \;
@@ -176,6 +178,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Wed Dec 26 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.10.1-2
+- Patch mencoder3 plugins
+
 * Sun Dec 23 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.10.1-1
 - Release 2.10.1
 
