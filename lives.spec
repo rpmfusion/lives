@@ -13,16 +13,14 @@
 #
 
 Name:           lives
-Version:        2.10.1
-Release:        2%{?dist}
+Version:        2.10.2
+Release:        1%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
 Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.bz2
 ## Appdata file
 Source1:        LiVES.appdata.xml
-
-Patch0:         %{name}-fix-py3_mencoder.patch
 
 BuildRequires:  pkgconfig(jack)
 BuildRequires:  pkgconfig(sdl)
@@ -94,7 +92,7 @@ designed to be simple to use, yet powerful.
 It is small in size, yet it has many advanced features.
 
 %prep
-%autosetup -p1 -n lives-%{version}
+%autosetup -n lives-%{version}
 
 # Remove spurious executable permissions
 find . -type f -name "*.h" -exec chmod 0644 '{}' \;
@@ -120,11 +118,16 @@ find %{buildroot} -name '*.a' -exec rm -f {} ';'
 mv %{buildroot}%{_libdir}/libOSC* %{buildroot}%{_libdir}/%{name}/
 mv %{buildroot}%{_libdir}/libweed* %{buildroot}%{_libdir}/%{name}/
 
+# Move icon
+mkdir -p %{buildroot}%{_datadir}/icons/%{name}
+mv %{buildroot}%{_datadir}/app-install/icons/%{name}.png %{buildroot}%{_datadir}/icons/%{name}/
+rm -rf %{buildroot}%{_datadir}/app-install
+
 # Weed's devel files removed
 rm -rf %{buildroot}%{_libdir}/pkgconfig
 rm -rf %{buildroot}%{_includedir}/weed
 
-# Remove bad documentation files location
+# Remove bad documentation file's location
 rm -rf %{buildroot}%{_docdir}/%{name}-%{version}
 
 # Remove rpath
@@ -173,11 +176,16 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_libdir}/%{name}/
 %{_datadir}/applications/LiVES.desktop
 %{_datadir}/%{name}/
+%{_datadir}/icons/%{name}/
+%{_datadir}/pixmaps/%{name}.png
 %{_datadir}/pixmaps/%{name}.xpm
-%{_datadir}/icons/hicolor/48x48/apps/%{name}.png
+%{_datadir}/icons/hicolor/*/apps/%{name}.png
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Fri Jan 11 2019 Antonio Trande <sagitterATfedoraproject.org> - 2.10.2-1
+- Release 2.10.2
+
 * Wed Dec 26 2018 Antonio Trande <sagitterATfedoraproject.org> - 2.10.1-2
 - Patch mencoder3 plugins
 
