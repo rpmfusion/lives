@@ -12,18 +12,25 @@
 %global __requires_exclude ^(%{privlibs})\\.so
 #
 
+# Note from upstream:
+# the SDL playback plugin is now deprecated in favour of the openGL playback plugin.
+# For one thing the program will crash if you use the SDL plugin and projectM plugin at the same time.
+# If you have both SDL 1 and SDL 2 installed, LiVES will detect both, since it will use SDL2 for projectM and SDL1 for the SDL playback plugin.
+# Use 'SDL2' and 'projectM' together.
+%bcond_without SDL2_projectM
+
 Name:           lives
-Version:        2.10.2
-Release:        3%{?dist}
+Version:        3.0.0
+Release:        1%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
 Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.bz2
-## Appdata file
+
+# Appdata file
 Source1:        LiVES.appdata.xml
 
 BuildRequires:  pkgconfig(jack)
-BuildRequires:  pkgconfig(sdl)
 BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  pkgconfig(libunicap)
 BuildRequires:  pkgconfig(libdv)
@@ -33,7 +40,6 @@ BuildRequires:  pkgconfig(libv4lconvert)
 BuildRequires:  pkgconfig(libfreenect)
 BuildRequires:  pkgconfig(frei0r)
 BuildRequires:  pkgconfig(liboil-0.3)
-BuildRequires:  pkgconfig(libtirpc)
 BuildRequires:  pkgconfig(theora)
 BuildRequires:  pkgconfig(vorbis)
 BuildRequires:  pkgconfig(schroedinger-1.0)
@@ -41,11 +47,23 @@ BuildRequires:  pkgconfig(libpng)
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  pkgconfig(opencv)
 BuildRequires:  pkgconfig(fftw3)
-##No plugins available
+
+#
+# 'tirpc' is required by 'musl-libc'
+BuildRequires:  pkgconfig(libtirpc)
+
+%if %{with SDL2_projectM}
+BuildRequires:  pkgconfig(libprojectM)
+BuildRequires:  pkgconfig(sdl2)
+#Requires: projectM-libvisual%%{?_isa}
+Requires: projectM-pulseaudio%{?_isa}
+Requires: projectM-jack%{?_isa}
+%endif
+BuildRequires:  pkgconfig(sdl)
+
 #BuildRequires:  pkgconfig(libvisual-0.4)
 BuildRequires:  pkgconfig(libmatroska)
 BuildRequires:  pkgconfig(mjpegtools)
-BuildRequires:  pkgconfig(libprojectM)
 BuildRequires:  ladspa-devel
 BuildRequires:  x264-libs
 BuildRequires:  gettext-devel
@@ -79,9 +97,6 @@ Requires: frei0r-plugins%{?_isa}
 Requires: mkvtoolnix%{?_isa}
 Requires: vorbis-tools%{?_isa}
 Requires: dvgrab%{?_isa}
-Requires: projectM-libvisual%{?_isa}
-Requires: projectM-pulseaudio%{?_isa}
-Requires: projectM-jack%{?_isa}
 Requires: hicolor-icon-theme
 
 %description
@@ -100,11 +115,12 @@ find . -type f -name "*.txt" -exec chmod 0644 '{}' \;
 find . -type f -name "*.c" -exec chmod 0644 '{}' \;
 
 %build
-%configure --disable-silent-rules --enable-shared --enable-static \
- --enable-largefile --enable-threads --disable-rpath --enable-profiling \
- --enable-doxygen --disable-libvisual --enable-projectM
+%configure --disable-silent-rules --enable-threads=posix --disable-rpath --enable-profiling --enable-doxygen --disable-libvisual \
+%if %{without SDL2_projectM}
+--disable-sdl2 --disable-projectM
+%endif
 
-%make_build CPPFLAGS=-I%{_includedir}/tirpc LIBS="-ltirpc -ldl"
+%make_build CPPFLAGS=`pkg-config --cflags libtirpc`
 
 %install
 %make_install
@@ -114,30 +130,32 @@ find . -type f -name "*.c" -exec chmod 0644 '{}' \;
 find %{buildroot} -name '*.la' -exec rm -f {} ';'
 find %{buildroot} -name '*.a' -exec rm -f {} ';'
 
-# We want that these libraries are private
-mv %{buildroot}%{_libdir}/libOSC* %{buildroot}%{_libdir}/%{name}/
-mv %{buildroot}%{_libdir}/libweed* %{buildroot}%{_libdir}/%{name}/
-
 # Move icon
 mkdir -p %{buildroot}%{_datadir}/icons/%{name}
 mv %{buildroot}%{_datadir}/app-install/icons/%{name}.png %{buildroot}%{_datadir}/icons/%{name}/
 rm -rf %{buildroot}%{_datadir}/app-install
+
+# We want that these libraries are private
+mv %{buildroot}%{_libdir}/libOSC* %{buildroot}%{_libdir}/%{name}/
+mv %{buildroot}%{_libdir}/libweed* %{buildroot}%{_libdir}/%{name}/
 
 # Weed's devel files removed
 rm -rf %{buildroot}%{_libdir}/pkgconfig
 rm -rf %{buildroot}%{_includedir}/weed
 
 # Remove bad documentation file's location
-rm -rf %{buildroot}%{_docdir}/%{name}-%{version}
+rm -rf %{buildroot}%{_docdir}
 
 # Remove rpath
 chrpath -d %{buildroot}%{_bindir}/%{name}-exe
 
-# Remove Python2 scripts
-find %{buildroot} -name '*encoder' -exec rm -f {} ';'
+# Remove Python2 script
+find %{buildroot} -name 'multi_encoder' -exec rm -f {} ';'
+find %{buildroot}%{_bindir} -name '*_encoder' -exec rm -f {} ';'
 
-# Fix Python interpreter
-find %{buildroot} -name '*encoder3' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python3}|'
+# Fix unversioned Python interpreter
+find %{buildroot} -name '*multi_encoder3' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python3}|'
+find %{buildroot}%{_bindir} -name '*_encoder3' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python3}|'
 
 rm -f %{buildroot}%{_bindir}/%{name}
 cat > %{buildroot}%{_bindir}/%{name} <<EOF
@@ -153,7 +171,7 @@ echo "Running LiVES"
 EOF
 chmod a+x %{buildroot}%{_bindir}/%{name}
 
-##Set Exec key
+# Set Exec key
 desktop-file-edit \
  --set-key=Exec --set-value=lives \
 %{buildroot}%{_datadir}/applications/LiVES.desktop
@@ -165,7 +183,7 @@ install -Dp -m 644 %{SOURCE1} %{buildroot}%{_metainfodir}/LiVES.appdata.xml
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 
 %files -f %{name}.lang
-%doc README AUTHORS BUGS ChangeLog FEATURES
+%doc README AUTHORS ChangeLog FEATURES
 %doc GETTING.STARTED NEWS OMC/*.txt RFX/*
 %license COPYING
 %{_bindir}/*%{name}*
@@ -183,6 +201,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Wed Aug 07 2019 Antonio Trande <sagitterATfedoraproject.org> - 3.0.0-1
+- Release 3.0.0
+
 * Wed Aug 07 2019 Leigh Scott <leigh123linux@gmail.com> - 2.10.2-3
 - Rebuild for new ffmpeg version
 
