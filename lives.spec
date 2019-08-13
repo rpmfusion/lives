@@ -20,12 +20,12 @@
 %bcond_without SDL2_projectM
 
 Name:           lives
-Version:        3.0.0
+Version:        3.0.1
 Release:        1%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
-Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.bz2
+Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.gz
 
 # Appdata file
 Source1:        LiVES.appdata.xml
@@ -201,6 +201,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Tue Aug 13 2019 Antonio Trande <sagitterATfedoraproject.org> - 3.0.1-1
+- Release 3.0.1
+
 * Wed Aug 07 2019 Antonio Trande <sagitterATfedoraproject.org> - 3.0.0-1
 - Release 3.0.0
 
@@ -330,7 +333,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 
 * Mon Oct 24 2016 Paul Howarth <paul@city-fan.org> - 2.8.0-2
 - BR: perl-generators for proper dependency generation (https://fedoraproject.org/wiki/Changes/Build_Root_Without_Perl)
-- BR: python2-devel for %__python2 macro definition
+- BR: python2-devel for %%__python2 macro definition
 
 * Mon Sep 19 2016 Antonio Trande <sagitterATfedoraproject.org> - 2.8.0-2
 - Drop mencoder as Requires package
