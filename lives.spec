@@ -114,6 +114,9 @@ find . -type f -name "*.h" -exec chmod 0644 '{}' \;
 find . -type f -name "*.txt" -exec chmod 0644 '{}' \;
 find . -type f -name "*.c" -exec chmod 0644 '{}' \;
 
+# Prepare autotools
+./autogen.sh --verbose
+
 %build
 %configure --disable-silent-rules --enable-threads=posix --disable-rpath --enable-profiling --enable-doxygen --disable-libvisual \
 %if %{without SDL2_projectM}
