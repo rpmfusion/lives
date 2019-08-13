@@ -107,7 +107,7 @@ designed to be simple to use, yet powerful.
 It is small in size, yet it has many advanced features.
 
 %prep
-%autosetup -n lives-%{version}
+%autosetup -n LiVES-%{version}
 
 # Remove spurious executable permissions
 find . -type f -name "*.h" -exec chmod 0644 '{}' \;
