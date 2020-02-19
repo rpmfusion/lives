@@ -12,6 +12,12 @@
 %global __requires_exclude ^(%{privlibs})\\.so
 #
 
+# https://src.fedoraproject.org/rpms/redhat-rpm-config/blob/master/f/buildflags.md#legacy-fcommon
+# https://gcc.gnu.org/gcc-10/porting_to.html#common
+%if 0%{?fedora} && 0%{?fedora} > 31
+%define _legacy_common_support 1
+%endif
+
 # Note from upstream:
 # the SDL playback plugin is now deprecated in favour of the openGL playback plugin.
 # For one thing the program will crash if you use the SDL plugin and projectM plugin at the same time.
