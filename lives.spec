@@ -27,11 +27,13 @@
 
 Name:           lives
 Version:        3.0.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
 Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.gz
+# https://github.com/salsaman/LiVES/pull/7
+Patch0:         Switch-to-opencv2-COLOR_RGB2GRAY.patch
 
 # Appdata file
 Source1:        LiVES.appdata.xml
@@ -113,7 +115,7 @@ designed to be simple to use, yet powerful.
 It is small in size, yet it has many advanced features.
 
 %prep
-%autosetup -n LiVES-%{version}
+%autosetup -p1 -n LiVES-%{version}
 
 # Remove spurious executable permissions
 find . -type f -name "*.h" -exec chmod 0644 '{}' \;
@@ -210,6 +212,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Tue Mar 10 2020 Nicolas Chauvet <kwizart@gmail.com> - 3.0.2-4
+- Fix build for OpenCV
+
 * Sat Feb 22 2020 RPM Fusion Release Engineering <leigh123linux@googlemail.com> - 3.0.2-3
 - Rebuild for ffmpeg-4.3 git
 
