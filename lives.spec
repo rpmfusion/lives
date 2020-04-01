@@ -27,7 +27,7 @@
 
 Name:           lives
 Version:        3.0.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -212,6 +212,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Wed Apr 01 2020 Nicolas Chauvet <kwizart@gmail.com> - 3.0.2-5
+- Rebuilt for libfreenect
+
 * Tue Mar 10 2020 Nicolas Chauvet <kwizart@gmail.com> - 3.0.2-4
 - Fix build for OpenCV
 
