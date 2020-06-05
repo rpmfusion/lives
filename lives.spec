@@ -27,7 +27,7 @@
 
 Name:           lives
 Version:        3.0.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
