@@ -33,7 +33,7 @@ License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
 Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.gz
 # https://github.com/salsaman/LiVES/pull/7
-Patch0:         Switch-to-opencv2-COLOR_RGB2GRAY.patch
+Patch0:         lives-Switch-to-opencv2-COLOR_RGB2GRAY.patch
 
 # Appdata file
 Source1:        LiVES.appdata.xml
@@ -131,7 +131,7 @@ find . -type f -name "*.c" -exec chmod 0644 '{}' \;
 --disable-sdl2 --disable-projectM
 %endif
 
-%make_build CPPFLAGS=`pkg-config --cflags libtirpc`
+%make_build CPPFLAGS="`pkg-config --cflags libtirpc` `pkg-config --cflags opencv4`"
 
 %install
 %make_install
@@ -165,8 +165,8 @@ find %{buildroot} -name 'multi_encoder' -exec rm -f {} ';'
 find %{buildroot}%{_bindir} -name '*_encoder' -exec rm -f {} ';'
 
 # Fix unversioned Python interpreter
-find %{buildroot} -name '*multi_encoder3' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python3}|'
-find %{buildroot}%{_bindir} -name '*_encoder3' | xargs sed -i '1s|^#!/usr/bin/env python|#!%{__python3}|'
+find %{buildroot} -name '*multi_encoder3' | xargs pathfix.py -pn -i "%{__python3}"
+find %{buildroot}%{_bindir} -name '*_encoder3' | xargs pathfix.py -pn -i "%{__python3}"
 
 rm -f %{buildroot}%{_bindir}/%{name}
 cat > %{buildroot}%{_bindir}/%{name} <<EOF
@@ -212,6 +212,12 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Fri Jun 05 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.0.2-6
+- Patch renamed
+- Use pathfix.py commands
+- Rebuild for Python 3.9
+- Set opencv cflags
+
 * Wed Apr 01 2020 Nicolas Chauvet <kwizart@gmail.com> - 3.0.2-5
 - Rebuilt for libfreenect
 
