@@ -12,12 +12,6 @@
 %global __requires_exclude ^(%{privlibs})\\.so
 #
 
-# https://src.fedoraproject.org/rpms/redhat-rpm-config/blob/master/f/buildflags.md#legacy-fcommon
-# https://gcc.gnu.org/gcc-10/porting_to.html#common
-%if 0%{?fedora} && 0%{?fedora} > 31
-%define _legacy_common_support 1
-%endif
-
 # Note from upstream:
 # the SDL playback plugin is now deprecated in favour of the openGL playback plugin.
 # For one thing the program will crash if you use the SDL plugin and projectM plugin at the same time.
@@ -26,14 +20,12 @@
 %bcond_without SDL2_projectM
 
 Name:           lives
-Version:        3.0.2
-Release:        8%{?dist}
+Version:        3.2.0
+Release:        1%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
-Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.gz
-# https://github.com/salsaman/LiVES/pull/7
-Patch0:         lives-Switch-to-opencv2-COLOR_RGB2GRAY.patch
+Source0:        http://lives-video.com/releases/LiVES-%{version}.tar.bz2
 
 # Appdata file
 Source1:        LiVES.appdata.xml
@@ -76,6 +68,7 @@ BuildRequires:  ladspa-devel
 BuildRequires:  x264-libs
 BuildRequires:  gettext-devel
 BuildRequires:  doxygen
+BuildRequires:  binutils-devel
 BuildRequires:  chrpath
 BuildRequires:  desktop-file-utils
 BuildRequires:  bison
@@ -115,7 +108,7 @@ designed to be simple to use, yet powerful.
 It is small in size, yet it has many advanced features.
 
 %prep
-%autosetup -p1 -n LiVES-%{version}
+%autosetup -n lives-%{version}
 
 # Remove spurious executable permissions
 find . -type f -name "*.h" -exec chmod 0644 '{}' \;
@@ -123,10 +116,10 @@ find . -type f -name "*.txt" -exec chmod 0644 '{}' \;
 find . -type f -name "*.c" -exec chmod 0644 '{}' \;
 
 # Prepare autotools
-./autogen.sh --verbose
+#./autogen.sh --verbose
 
 %build
-%configure --disable-silent-rules --enable-threads=posix --disable-rpath --enable-profiling --enable-doxygen --disable-libvisual \
+%configure --disable-silent-rules --enable-threads=posix --disable-rpath --enable-profiling --enable-doxygen --disable-libvisual --disable-system-weed \
 %if %{without SDL2_projectM}
 --disable-sdl2 --disable-projectM
 %endif
@@ -198,8 +191,6 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %doc GETTING.STARTED NEWS OMC/*.txt RFX/*
 %license COPYING
 %{_bindir}/*%{name}*
-%{_bindir}/midistart
-%{_bindir}/midistop
 %{_bindir}/sendOSC
 %{_bindir}/smogrify
 %{_libdir}/%{name}/
@@ -212,6 +203,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Mon Nov 09 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.2.0-1
+- Release 3.2.0
+
 * Tue Aug 18 2020 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 3.0.2-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
