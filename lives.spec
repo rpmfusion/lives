@@ -5,7 +5,9 @@
 %global privlibs %{privlibs}|libweed-utils
 %global privlibs %{privlibs}|libweed-utils_scripting
 %global privlibs %{privlibs}|libweed_slice
+%global privlibs %{privlibs}|libweed_gslice
 %global privlibs %{privlibs}|libweed_slice_scripting
+%global privlibs %{privlibs}|libweed_gslice_scripting
 %global privlibs %{privlibs}|libav_stream
 
 %global __provides_exclude ^(%{privlibs})\\.so
@@ -21,7 +23,7 @@
 
 Name:           lives
 Version:        3.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -203,6 +205,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Fri Dec 18 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.2.0-2
+- Filter gslice* libraries
+
 * Mon Nov 09 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.2.0-1
 - Release 3.2.0
 
