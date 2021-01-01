@@ -23,7 +23,7 @@
 
 Name:           lives
 Version:        3.2.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -205,6 +205,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Fri Jan  1 2021 Leigh Scott <leigh123linux@gmail.com> - 3.2.0-3
+- Rebuilt for new ffmpeg snapshot
+
 * Fri Dec 18 2020 Antonio Trande <sagitter@fedoraproject.org> - 3.2.0-2
 - Filter gslice* libraries
 
