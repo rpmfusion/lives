@@ -23,7 +23,7 @@
 
 Name:           lives
 Version:        3.2.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -205,6 +205,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Sat Apr 17 2021 Leigh Scott <leigh123linux@gmail.com> - 3.2.0-5
+- Rebuild for new mjpegtools
+
 * Wed Feb 03 2021 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 3.2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
