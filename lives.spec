@@ -14,6 +14,20 @@
 %global __requires_exclude ^(%{privlibs})\\.so
 #
 
+# LiVES is not ready for FFMpeg-5* yet
+%if 0%{?fedora} > 35
+%bcond_with ffmpeg
+%endif
+
+# LiVES's builds fail with FFMpeg-4*
+%if %{with ffmpeg}
+%if 0%{?fedora} > 35
+%bcond_with oldffmpeg
+%else
+%bcond_with oldffmpeg
+%endif
+%endif
+
 # Note from upstream:
 # the SDL playback plugin is now deprecated in favour of the openGL playback plugin.
 # For one thing the program will crash if you use the SDL plugin and projectM plugin at the same time.
@@ -23,7 +37,7 @@
 
 Name:           lives
 Version:        3.2.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -75,7 +89,11 @@ BuildRequires:  chrpath
 BuildRequires:  desktop-file-utils
 BuildRequires:  bison
 BuildRequires:  gtk3-devel
-BuildRequires:  ffmpeg-devel
+%if %{with oldffmpeg}
+BuildRequires: compat-ffmpeg4-devel
+%else
+BuildRequires: ffmpeg-devel
+%endif
 BuildRequires:  bzip2-devel
 BuildRequires:  libappstream-glib
 BuildRequires:  gcc-c++, pkgconf-pkg-config
@@ -122,8 +140,23 @@ find . -type f -name "*.c" -exec chmod 0644 '{}' \;
 
 %build
 %configure --disable-silent-rules --enable-threads=posix --disable-rpath --enable-profiling --enable-doxygen --disable-libvisual --disable-system-weed \
+%if %{with oldffmpeg}
+  LIBAVCODEC_CFLAGS=-I%{_includedir}/compat-ffmpeg4 \
+  LIBAVCODEC_LIBS="-L%{_libdir}/compat-ffmpeg4 -lavcodec" \
+  LIBAVFORMAT_CFLAGS=-I%{_includedir}/compat-ffmpeg4 \
+  LIBAVFORMAT_LIBS="-L%{_libdir}/compat-ffmpeg4 -lavformat" \
+  LIBAVUTIL_CFLAGS=-I%{_includedir}/compat-ffmpeg4 \
+  LIBAVUTIL_LIBS="-L%{_libdir}/compat-ffmpeg4 -lavutil" \
+  LIBSWSCALE_CFLAGS=-I%{_includedir}/compat-ffmpeg4 \
+  LIBSWSCALE_LIBS="-L%{_libdir}/compat-ffmpeg4 -lswscale" \
+  LIBSWRESAMPLE_CFLAGS=-I%{_includedir}/compat-ffmpeg4 \
+  LIBSWRESAMPLE_LIBS="-L%{_libdir}/compat-ffmpeg4 -lswresample" \
+%endif
+%if %{without ffmpeg}
+  --disable-ffmpeg \
+%endif
 %if %{without SDL2_projectM}
---disable-sdl2 --disable-projectM
+  --disable-sdl2 --disable-projectM
 %endif
 
 %make_build CPPFLAGS="`pkg-config --cflags libtirpc` `pkg-config --cflags opencv4`"
@@ -205,6 +238,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Sat Mar 26 2022 Antonio Trande <sagitter@fedoraproject.org> - 3.2.0-10
+- Disable FFMpeg in Fedora 36+
+
 * Wed Feb 09 2022 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3.2.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
