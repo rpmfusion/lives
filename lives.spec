@@ -37,7 +37,7 @@
 
 Name:           lives
 Version:        3.2.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -111,7 +111,7 @@ Requires: ogmtools%{?_isa}
 Requires: oggvideotools%{?_isa}
 Requires: perl-interpreter%{?_isa}
 Requires: theora-tools%{?_isa}
-Requires: youtube-dl
+Requires: yt-dlp
 Requires: dvgrab%{?_isa}
 Requires: icedax%{?_isa}
 Requires: frei0r-plugins%{?_isa}
@@ -238,6 +238,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Sat Jul 09 2022 Antonio Trande <sagitter@fedoraproject.org> - 3.2.0-11
+- Switch to yt-dlp (rfbz#6344)
+
 * Sat Mar 26 2022 Antonio Trande <sagitter@fedoraproject.org> - 3.2.0-10
 - Disable FFMpeg in Fedora 36+
 
