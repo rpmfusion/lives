@@ -37,7 +37,7 @@
 
 Name:           lives
 Version:        3.2.0
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -107,7 +107,6 @@ Requires: mplayer%{?_isa}
 Requires: mpv%{?_isa}
 Requires: sox%{?_isa}
 Requires: ImageMagick%{?_isa}
-Requires: ogmtools%{?_isa}
 Requires: oggvideotools%{?_isa}
 Requires: perl-interpreter%{?_isa}
 Requires: theora-tools%{?_isa}
@@ -238,6 +237,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Thu Feb 02 2023 Leigh Scott <leigh123linux@gmail.com> - 3.2.0-13
+- Drop ogmtools requirement due to fedora retirement
+
 * Sun Aug 07 2022 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3.2.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild and ffmpeg
   5.1
