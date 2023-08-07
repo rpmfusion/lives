@@ -192,8 +192,8 @@ find %{buildroot} -name 'multi_encoder' -exec rm -f {} ';'
 find %{buildroot}%{_bindir} -name '*_encoder' -exec rm -f {} ';'
 
 # Fix unversioned Python interpreter
-find %{buildroot} -name '*multi_encoder3' | xargs pathfix.py -pn -i "%{__python3}"
-find %{buildroot}%{_bindir} -name '*_encoder3' | xargs pathfix.py -pn -i "%{__python3}"
+find %{buildroot} -name '*multi_encoder3' | xargs %{py3_shebang_fix}
+find %{buildroot}%{_bindir} -name '*_encoder3' | xargs %{py3_shebang_fix}
 
 rm -f %{buildroot}%{_bindir}/%{name}
 cat > %{buildroot}%{_bindir}/%{name} <<EOF
