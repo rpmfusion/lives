@@ -188,12 +188,16 @@ rm -rf %{buildroot}%{_docdir}
 chrpath -d %{buildroot}%{_bindir}/%{name}-exe
 
 # Remove Python2 script
-find %{buildroot} -name 'multi_encoder' -exec rm -f {} ';'
-find %{buildroot}%{_bindir} -name '*_encoder' -exec rm -f {} ';'
+find %{buildroot} -name 'multi_encoder' -delete
+find %{buildroot}%{_bindir} -name '*_encoder' -delete
 
 # Fix unversioned Python interpreter
-find %{buildroot} -name '*multi_encoder3' | xargs %{py3_shebang_fix}
-find %{buildroot}%{_bindir} -name '*_encoder3' | xargs %{py3_shebang_fix}
+for i in $(find %{buildroot} -type f -name '*multi_encoder3'); do
+    %{py3_shebang_fix} $i
+done
+for i in $(find %{buildroot} -type f -name '*_encoder3'); do
+    %{py3_shebang_fix} $i
+done
 
 rm -f %{buildroot}%{_bindir}/%{name}
 cat > %{buildroot}%{_bindir}/%{name} <<EOF
