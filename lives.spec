@@ -48,7 +48,10 @@ Source1:        LiVES.appdata.xml
 
 BuildRequires:  pkgconfig(jack)
 BuildRequires:  pkgconfig(libpulse)
+%if 0%{?fedora} && 0%{?fedora} < 41
+# retired
 BuildRequires:  pkgconfig(libunicap)
+%endif
 BuildRequires:  pkgconfig(libdv)
 BuildRequires:  pkgconfig(libavc1394)
 BuildRequires:  pkgconfig(libraw1394)
