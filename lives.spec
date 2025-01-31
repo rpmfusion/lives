@@ -37,7 +37,7 @@
 
 Name:           lives
 Version:        3.2.0
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -48,10 +48,6 @@ Source1:        LiVES.appdata.xml
 
 BuildRequires:  pkgconfig(jack)
 BuildRequires:  pkgconfig(libpulse)
-%if 0%{?fedora} && 0%{?fedora} < 41
-# retired
-BuildRequires:  pkgconfig(libunicap)
-%endif
 BuildRequires:  pkgconfig(libdv)
 BuildRequires:  pkgconfig(libavc1394)
 BuildRequires:  pkgconfig(libraw1394)
@@ -140,6 +136,7 @@ find . -type f -name "*.c" -exec chmod 0644 '{}' \;
 #./autogen.sh --verbose
 
 %build
+export CFLAGS="%{optflags} -std=gnu17"
 %configure --disable-silent-rules --enable-threads=posix --disable-rpath --enable-profiling --enable-doxygen --disable-libvisual --disable-system-weed \
 %if %{with oldffmpeg}
   LIBAVCODEC_CFLAGS=-I%{_includedir}/compat-ffmpeg4 \
@@ -243,6 +240,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Fri Jan 31 2025 Antonio Trande <sagitter@fedoraproject.org> - 3.2.0-21
+- Fix GCC15 builds
+
 * Tue Jan 28 2025 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3.2.0-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_42_Mass_Rebuild
 
