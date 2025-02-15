@@ -37,7 +37,7 @@
 
 Name:           lives
 Version:        3.2.0
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -240,6 +240,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
+* Sat Feb 15 2025 Leigh Scott <leigh123linux@gmail.com> - 3.2.0-22
+- Rebuild for new opencv
+
 * Fri Jan 31 2025 Antonio Trande <sagitter@fedoraproject.org> - 3.2.0-21
 - Fix GCC15 builds
 
