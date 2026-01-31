@@ -37,7 +37,7 @@
 
 Name:           lives
 Version:        3.2.0
-Release:        25%{?dist}
+Release:        26%{?dist}
 Summary:        Video editor and VJ tool
 License:        GPLv3+ and LGPLv3+
 URL:            http://lives-video.com
@@ -240,7 +240,7 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_metainfodir}/LiVES.appdata.xml
 
 %changelog
-* Fri Jan 30 2026 Nicolas Chauvet <kwizart@gmail.com> - 3.2.0-25
+* Fri Jan 30 2026 Nicolas Chauvet <kwizart@gmail.com> - 3.2.0-26
 - Rebuilt for OpenCV-4.13.0
 
 * Fri Dec 12 2025 Nicolas Chauvet <kwizart@gmail.com> - 3.2.0-24
